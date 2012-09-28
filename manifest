@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 0.5
+apiversion: 2
+description: Listing web images module
+author: Atsushi Kataoka
+license: MIT License
+copyright: Copyright (c) 2012 by MARSHMALLOW MACHINE
+
+
+# these should not be edited
+name: tiimagecollectionview
+moduleid: jp.msmc.imagecollectionview
+guid: c06a9b03-dec0-4eca-9e0e-cb67d4c429b8
+platform: iphone
+minsdk: 2.1.3.v20120915120319
