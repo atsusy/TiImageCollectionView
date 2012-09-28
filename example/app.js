@@ -1,4 +1,5 @@
 var module = require('jp.msmc.imagecollectionview');
+var flickerApiKey = '<YOUR API KEY HERE>';
 
 var window = Ti.UI.createWindow({
 });
@@ -36,43 +37,35 @@ var imageCollectionView = module.createImageCollectionView({
 	footerView:activityIndicator
 });
 
-var copyrightForBjinMe = Ti.UI.createLabel({
-	backgroundColor:'black',
-	color:'white',
-	font:{
-		fontFamily:'Helvetica Neue' ,
-		fontSize:12,
-		fontWeight:'bold'
-	},
-	textAlign:'right',
-	width:Ti.UI.FILL,
-	height:24,
-	bottom:0,
-	opacity:0.8,
-	text:'Bjin.Me API '
-});
-
-var bjinmeQueryContext = {
+var queryContext = {
 	searching:false,
 	page:0,
 	countPerPage:48,
 	images:[]
 };
 
-var searchBjinMe = function(args)
+var searchFlickr = function(args)
 {
-	var url = 'http://bjin.me/api/?type=rand&format=json'
-	url += '&count='+args.countPerPage;
+	var url = 'http://www.flickr.com/services/rest/?format=json'
+	url += '&api_key='+flickerApiKey;
+	url += '&method=flickr.interestingness.getList'
+	url += '&nojsoncallback=1';
+	url += '&per_page='+args.countPerPage;
+	url += '&page='+args.page;
 
 	var client = Ti.Network.createHTTPClient({
 		onload:function(e){
-			var images = JSON.parse(this.responseText);
+			var images = JSON.parse(this.responseText).photos.photo;
 			
 			/* append result */
 			args.images = args.images.concat(images.map(function(image){
+				var url = "http://farm"+image.farm+".staticflickr.com/";
+				url += image.server+"/";
+				url += image.id+"_";
+				url += image.secret+"_q.jpg";
 				return {
 					id:image.id,
-					url:image.thumb
+					url:url
 				}
 			}));
 
@@ -101,7 +94,7 @@ var searchBjinMe = function(args)
 }
 
 window.addEventListener('open', function(){
-	searchBjinMe(bjinmeQueryContext);
+	searchFlickr(queryContext);
 });
 
 imageCollectionView.addEventListener('selected', function(e){
@@ -109,13 +102,13 @@ imageCollectionView.addEventListener('selected', function(e){
 });
 
 imageCollectionView.addEventListener('scroll', function(e){
-	if(bjinmeQueryContext.searching){
+	if(queryContext.searching){
 		return;
 	}
 	var heightToBottom = (e.contentSize.height - e.contentOffset.y);
 	if(heightToBottom < Ti.Platform.displayCaps.platformHeight * 1.1){
-		bjinmeQueryContext.page++;
-		searchBjinMe(bjinmeQueryContext);
+		queryContext.page++;
+		searchFlickr(queryContext);
 	}
 });
 
@@ -123,11 +116,6 @@ imageCollectionView.addEventListener('scrollEnd', function(e){
 	Ti.API.info("scroll end offset x:" + e.contentOffset.x + " y:" + e.contentOffset.y);
 });
 
-copyrightForBjinMe.addEventListener('click', function(e){
-	Ti.Platform.openURL('http://bjin.me');
-});
-
 window.add(imageCollectionView);
-window.add(copyrightForBjinMe);
 window.open();
 
