@@ -111,7 +111,7 @@
     CGFloat y = [[newCellPadding valueForKey:@"y"] floatValue];
     cellPadding = CGSizeMake(x, y);
     
-    [[self gridView] reloadData];    
+    [[self gridView] reloadData];
 }
 
 - (void)setLeftContentInset_:(id)leftContentInset
@@ -265,6 +265,11 @@
                                                        contentSize, @"contentSize",
                                                        nil]];
     }
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    [[self gridView] reloadData];    
 }
 
 @end
