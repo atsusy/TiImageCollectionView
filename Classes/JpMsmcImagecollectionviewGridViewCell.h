@@ -15,6 +15,7 @@
     UIImage *placeholderImage;
 }
 @property (nonatomic, retain) NSString *url;
+
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)aReuseIdentifier placeholderImage:(UIImage *)aPlaceholderImage;
 
 @end

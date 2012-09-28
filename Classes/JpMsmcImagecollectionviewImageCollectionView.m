@@ -70,7 +70,9 @@
     ENSURE_UI_THREAD_1_ARG(newImages);
     ENSURE_ARRAY(newImages);
     
+    RELEASE_TO_NIL(images);
     images = [newImages retain];
+    
     [[self gridView] reloadData];
 }
 
@@ -132,6 +134,7 @@
 {
     ENSURE_UI_THREAD_1_ARG(newPlaceHolder);
     
+    RELEASE_TO_NIL(placeHolder);
     placeHolder = [[TiUtils image:newPlaceHolder proxy:self.proxy] retain];
 }
 
@@ -139,6 +142,7 @@
 {
     ENSURE_UI_THREAD_1_ARG(newSelectionGlowColor);
     
+    RELEASE_TO_NIL(selectionGlowColor);
     selectionGlowColor = [[[TiUtils colorValue:newSelectionGlowColor] color] retain];
 }
 

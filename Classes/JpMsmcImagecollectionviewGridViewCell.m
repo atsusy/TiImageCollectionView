@@ -52,6 +52,7 @@
     url = [anURL retain];
     
     NSString *encoded = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];    
+
     [imageView setImageWithURL:[NSURL URLWithString:encoded]
               placeholderImage:placeholderImage
                        success:^(UIImage *image, BOOL cached){
@@ -60,7 +61,7 @@
                        failure:^(NSError *error){
                        
                        }];
-    
+    [self layoutSubviews];    
 }
 
 - (void)layoutSubviews
@@ -96,9 +97,7 @@
 
 - (void)dealloc
 {
-    RELEASE_TO_NIL(placeholderImage);
-    RELEASE_TO_NIL(url);
-
+    self.url = nil;
     [super dealloc];
 }
 
