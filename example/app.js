@@ -1,5 +1,5 @@
 var module = require('jp.msmc.imagecollectionview');
-var flickerApiKey = '<YOUR API KEY HERE>';
+var flickrApiKey = '<YOUR API KEY HERE>';
 
 var window = Ti.UI.createWindow({
 });
@@ -47,7 +47,7 @@ var queryContext = {
 var searchFlickr = function(args)
 {
 	var url = 'http://www.flickr.com/services/rest/?format=json'
-	url += '&api_key='+flickerApiKey;
+	url += '&api_key='+flickrApiKey;
 	url += '&method=flickr.interestingness.getList'
 	url += '&nojsoncallback=1';
 	url += '&per_page='+args.countPerPage;
